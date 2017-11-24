@@ -6,14 +6,27 @@ __Made by:__ Calvin Wu, Edward Wong, Kevin Bastian, Nikolas Tilley
 
 __About__
 
-Cloud Application that maps the occurrences of Food and Events on RIT Campus. Deployed using Google App Engine.
+A Cloud Application that maps the occurrences of Food and Events on RIT Campus. Deployed using Google App Engine.
 
 
 __Configuration__
 
-Before running or deploying this application, install the dependencies using pip:
+1. Initialize and enter virtual environment
+   
+   On Mac
+    
+        virtualenv env 
+        source env/bin/activate
 
-	pip install -t lib -r requirements.txt
+    On Windows
+    
+        virtualenv env 
+        env\scripts\activate
+
+
+2. Install application dependencies using pip:
+
+	    pip install -t lib -r requirements.txt
 	
 	
 __Deployment__
