@@ -10,7 +10,7 @@ app = Flask(__name__)
 def home():
     return "This is the home route. Just testing flask. By Kevin"
 
-@app.route('/vuetest/<name>', methods=['GET'])
+@app.route('/vue/<name>', methods=['GET'])
 def hello_world(name=None):
     return render_template('hello.html', name=name)
 
