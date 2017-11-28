@@ -18,5 +18,6 @@ def hello_world(name=None):
 def test_map():
     return render_template('maptest.html')
 
+
 if __name__ == '__main__':
     app.run()
