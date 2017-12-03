@@ -1,5 +1,6 @@
 Flask==0.12.2
 pytest
+requests
 GoogleAppEngineCloudStorageClient==1.9.22.1
 google-cloud-storage==1.2.0
 ez_setup==0.9
