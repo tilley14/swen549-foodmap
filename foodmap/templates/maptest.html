@@ -25,11 +25,22 @@
 <div id="map"></div>
 <script>
     var map;
+    var latMin = 43.08086111;
+    var latMax = 43.08813889;
+    var lngMin =  -77.66583333;
+    var lngMax = -77.68500000;
     function initMap() {
+        var latLocation = Math.random() * (latMax - latMin) + latMin;
+        var lngLocation = Math.random() * (lngMax - lngMin) + lngMin;
+        var location = {lat: latLocation, lng: lngLocation};
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 16,
             center: new google.maps.LatLng(43.0840, -77.675),
             mapTypeId: 'roadmap'
+        });
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
         });
 
         // Create a <script> tag and set the USGS URL as the source.
