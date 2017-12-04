@@ -10,17 +10,17 @@
 
 from flask import Flask, Response
 from flask import render_template, url_for
-from google.appengine.api import users
-from google.appengine.api import app_identity
+#from google.appengine.api import users
+#from google.appengine.api import app_identity
 
 
 import logging
 import requests
 import os
-import cloudstorage as gcs
+#import cloudstorage as gcs
 
 
-default_bucket = app_identity.get_default_gcs_bucket_name()
+#default_bucket = app_identity.get_default_gcs_bucket_name()
 
 
 app = Flask(__name__)
@@ -59,7 +59,7 @@ def feedData():
 
 
 @app.route('/submit', methods=['POST'])
-def write_data(title="food.dat"):
+def write_data(title="earthquake.json"):
     # Write a File
     write_retry_params = gcs.RetryParams(backoff_factor=1.1)
 
@@ -80,7 +80,7 @@ def write_data(title="food.dat"):
     return "Write complete"
 
 
-def read_gcs_file(filename="sensorData.dat"):
+def read_gcs_file(filename="earthquake.json"):
     bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
     bucket = '/' + bucket_name
 
