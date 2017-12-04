@@ -9,20 +9,30 @@
 
 from flask import Flask, Response
 from flask import render_template, url_for
-#from google.appengine.api import users
-#from google.appengine.api import app_identity
+from google.appengine.api import users
+from google.appengine.api import app_identity
 
 
 import logging
 import requests
 import os
-#import cloudstorage as gcs
+import cloudstorage as gcs
 
 
-#default_bucket = app_identity.get_default_gcs_bucket_name()
+default_bucket = app_identity.get_default_gcs_bucket_name()
 
 
 app = Flask(__name__)
+
+
+def read_gcs_file(filename="earthquake.json"):
+    bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+    bucket = '/' + bucket_name
+
+    gcs_file = gcs.open(bucket + '/' + filename)
+    file_contents = gcs_file.read()
+    gcs_file.close()
+    return file_contents
 
 
 @app.route('/', methods=['GET'])
@@ -58,33 +68,39 @@ def feedData():
     """ Dynamically creating a Javascript file that contains Data to
         Be displayed by the Map
     """
-    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-    data = open(os.path.join(APP_ROOT, 'static/earthquake.json')).read() # TODO subsitute in for reading from GCP
+    #APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+    #data = open(os.path.join(APP_ROOT, 'static/earthquake.json')).read() # TODO subsitute in for reading from GCP
+    data = read_gcs_file()
+
     return 'eqfeed_callback(' + data + ');'
 
 
 @app.route('/submit', methods=['POST'])
-def write_data():
-    """ Writes JSON data to our Food Data file in Google Cloud Storage
-    """
+def write_data(title="testing.json"):
     # Write a File
+    write_retry_params = gcs.RetryParams(backoff_factor=1.1)
 
-    # TODO read data from Request
+    bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+    bucket = '/' + bucket_name
+    filename = bucket + '/' + title
 
-    #write_retry_params = gcs.RetryParams(backoff_factor=1.1)
+    gcs_file = gcs.open(filename)
+    file_contents = gcs_file.read()
+    gcs_file.close()
 
-    filename = '/<bucket_name>/food.dat'
-    """
     gcs_file = gcs.open(filename,
                         'w',
                         content_type='text/plain',
                         retry_params=write_retry_params)
 
-    gcs_file.write("SomeData") # TODO make sure that this appends to the end of the file
+    gcs_file.write(file_contents + "SomeData\n")
 
     gcs_file.close()
-    """
-    return 'Successful Write'
+
+    return "Write complete"
+
+
+
 
 
 if __name__ == '__main__':
