@@ -1,8 +1,9 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, Response
+from flask import render_template, url_for
 
 import logging
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -19,7 +20,17 @@ def hello_world(name=None):
 
 @app.route('/map', methods=['GET'])
 def test_map():
-    return render_template('maptest.html')
+    dataURL = url_for('feedData', _external=True)
+    return render_template('maptest.html', dataURL=dataURL)
+
+
+@app.route('/feedData', methods=['GET'])
+def feedData():
+    APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+    data = open(os.path.join(APP_ROOT, 'static/earthquake.json')).read() # TODO subsitute in for reading from GCP
+    return 'eqfeed_callback(' + data + ');'
+    ##return Response(data, mimetype='.js')
+
 
 
 @app.route('/submit', methods=['POST'])
