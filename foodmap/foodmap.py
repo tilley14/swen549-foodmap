@@ -9,17 +9,17 @@
 
 from flask import Flask, Response
 from flask import render_template, url_for
-from google.appengine.api import users
-from google.appengine.api import app_identity
+#from google.appengine.api import users
+#from google.appengine.api import app_identity
 
 
 import logging
 import requests
 import os
-import cloudstorage as gcs
+#import cloudstorage as gcs
 
 
-default_bucket = app_identity.get_default_gcs_bucket_name()
+#default_bucket = app_identity.get_default_gcs_bucket_name()
 
 
 app = Flask(__name__)
@@ -41,11 +41,17 @@ def hello_world(name=None):
 
 @app.route('/map', methods=['GET'])
 def test_map():
-    """ Testing the use of Google's map API
+    """ The actual foodmap that uses Google's map API
     """
     dataURL = url_for('feedData', _external=True)
     return render_template('foodmap.html', dataURL=dataURL)
 
+@app.route('/maptest', methods=['GET'])
+def fake_map():
+    """ Testing the use of Google's map API
+    """
+    dataURL = url_for('feedData', _external=True)
+    return render_template('maptest.html', dataURL=dataURL)
 
 @app.route('/feedData', methods=['GET'])
 def feedData():
@@ -65,9 +71,10 @@ def write_data():
 
     # TODO read data from Request
 
-    write_retry_params = gcs.RetryParams(backoff_factor=1.1)
+    #write_retry_params = gcs.RetryParams(backoff_factor=1.1)
 
     filename = '/<bucket_name>/food.dat'
+    """
     gcs_file = gcs.open(filename,
                         'w',
                         content_type='text/plain',
@@ -76,6 +83,7 @@ def write_data():
     gcs_file.write("SomeData") # TODO make sure that this appends to the end of the file
 
     gcs_file.close()
+    """
     return 'Successful Write'
 
 
