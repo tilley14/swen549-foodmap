@@ -5,6 +5,7 @@
     Deployed on Google App Engine.
 
     @Authors Nikolas Tilley
+
 """
 
 from flask import Flask, Response
@@ -58,25 +59,35 @@ def feedData():
 
 
 @app.route('/submit', methods=['POST'])
-def write_data():
-    """ Writes JSON data to our Food Data file in Google Cloud Storage
-    """
+def write_data(title="food.dat"):
     # Write a File
-
-    # TODO read data from Request
-
     write_retry_params = gcs.RetryParams(backoff_factor=1.1)
 
-    filename = '/<bucket_name>/food.dat'
+    filename = '/<Bucket name>/{}'.format(title)
+    gcs_file = gcs.open(filename)
+    file_contents = gcs_file.read()
+    gcs_file.close()
+
     gcs_file = gcs.open(filename,
                         'w',
                         content_type='text/plain',
                         retry_params=write_retry_params)
 
-    gcs_file.write("SomeData") # TODO make sure that this appends to the end of the file
+    gcs_file.write(file_contents + "SomeData\n")
 
     gcs_file.close()
-    return 'Successful Write'
+
+    return "Write complete"
+
+
+def read_gcs_file(filename="sensorData.dat"):
+    bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+    bucket = '/' + bucket_name
+
+    gcs_file = gcs.open(bucket + '/' + filename)
+    file_contents = gcs_file.read()
+    gcs_file.close()
+    return file_contents
 
 
 if __name__ == '__main__':
