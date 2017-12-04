@@ -5,7 +5,6 @@
     Deployed on Google App Engine.
 
     @Authors Nikolas Tilley, Edward Wong
-
 """
 
 from flask import Flask, Response
@@ -52,11 +51,17 @@ def hello_world(name=None):
 
 @app.route('/map', methods=['GET'])
 def test_map():
-    """ Testing the use of Google's map API
+    """ The actual foodmap that uses Google's map API
     """
     dataURL = url_for('feedData', _external=True)
     return render_template('foodmap.html', dataURL=dataURL)
 
+@app.route('/maptest', methods=['GET'])
+def fake_map():
+    """ Testing the use of Google's map API
+    """
+    dataURL = url_for('feedData', _external=True)
+    return render_template('maptest.html', dataURL=dataURL)
 
 @app.route('/feedData', methods=['GET'])
 def feedData():
