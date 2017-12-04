@@ -4,7 +4,7 @@
     It utilizes Google's Maps API, as well as Google's Cloud Storage.
     Deployed on Google App Engine.
 
-    @Authors Nikolas Tilley
+    @Authors Nikolas Tilley, Edward Wong
 
 """
 
