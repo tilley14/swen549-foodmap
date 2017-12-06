@@ -9,23 +9,24 @@
 
 from flask import Flask, Response
 from flask import render_template, url_for
-from google.appengine.api import users
-from google.appengine.api import app_identity
+#from google.appengine.api import users
+#from google.appengine.api import app_identity
 
 
 import logging
 import requests
 import os
-import cloudstorage as gcs
+#import cloudstorage as gcs
 
 
-default_bucket = app_identity.get_default_gcs_bucket_name()
+#default_bucket = app_identity.get_default_gcs_bucket_name()
 
 
 app = Flask(__name__)
 
 
 def read_gcs_file(filename="earthquake.json"):
+    """
     bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
     bucket = '/' + bucket_name
 
@@ -33,7 +34,8 @@ def read_gcs_file(filename="earthquake.json"):
     file_contents = gcs_file.read()
     gcs_file.close()
     return file_contents
-
+    """
+    pass
 
 @app.route('/', methods=['GET'])
 def home():
@@ -78,6 +80,7 @@ def feedData():
 @app.route('/submit', methods=['POST'])
 def write_data(title="testing.json"):
     # Write a File
+    """
     write_retry_params = gcs.RetryParams(backoff_factor=1.1)
 
     bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
@@ -96,7 +99,7 @@ def write_data(title="testing.json"):
     gcs_file.write(file_contents + "SomeData\n")
 
     gcs_file.close()
-
+    """
     return "Write complete"
 
 
