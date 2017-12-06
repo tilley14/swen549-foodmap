@@ -7,14 +7,13 @@
     @Authors Nikolas Tilley, Edward Wong
 """
 
-from flask import Flask, Response
+from flask import Flask, request
 from flask import render_template, url_for
 from google.appengine.api import users
 from google.appengine.api import app_identity
 
-
+import json
 import logging
-import requests
 import os
 import cloudstorage as gcs
 
@@ -37,24 +36,11 @@ def read_gcs_file(filename="earthquake.json"):
 
 @app.route('/', methods=['GET'])
 def home():
-    """ Testing GCP
-    """
-    return "This is the home route. Just testing flask. By Kevin"
-
-
-@app.route('/vue/<name>', methods=['GET'])
-def hello_world(name=None):
-    """ Testing the use of Vue with Jinja2 templates
-    """
-    return render_template('hello.html', name=name)
-
-
-@app.route('/map', methods=['GET'])
-def test_map():
     """ The actual foodmap that uses Google's map API
     """
     dataURL = url_for('feedData', _external=True)
     return render_template('foodmap.html', dataURL=dataURL)
+
 
 @app.route('/maptest', methods=['GET'])
 def fake_map():
@@ -63,20 +49,19 @@ def fake_map():
     dataURL = url_for('feedData', _external=True)
     return render_template('maptest.html', dataURL=dataURL)
 
+
 @app.route('/feedData', methods=['GET'])
 def feedData():
     """ Dynamically creating a Javascript file that contains Data to
         Be displayed by the Map
     """
     #APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-    #data = open(os.path.join(APP_ROOT, 'static/earthquake.json')).read() # TODO subsitute in for reading from GCP
+    #data = open(os.path.join(APP_ROOT, 'static/earthquake.json')).read()
     data = read_gcs_file()
-
     return 'eqfeed_callback(' + data + ');'
 
 
-@app.route('/submit', methods=['POST'])
-def write_data(title="testing.json"):
+def write_data(data, title="testing.json"):
     # Write a File
     write_retry_params = gcs.RetryParams(backoff_factor=1.1)
 
@@ -93,11 +78,25 @@ def write_data(title="testing.json"):
                         content_type='text/plain',
                         retry_params=write_retry_params)
 
-    gcs_file.write(file_contents + "SomeData\n")
+    gcs_file.write(file_contents + data.__str__() + "\n")
 
     gcs_file.close()
-
     return "Write complete"
+
+@app.route('/submit', methods=['GET'])
+def submit_data():
+    # if request.method == 'GET':
+    write_data('Writing to the file')
+    return 'Write sucessful'
+    # elif request.method == 'Post':
+    #     data = request.get_json(force=True)
+    #     write_data(json.dumps(data))
+    #     return "post recieved"
+    # else:
+    #     return "Error"
+
+
+
 
 
 
