@@ -25,6 +25,7 @@ app = Flask(__name__)
 
 
 def read_gcs_file(filename="earthquake.json"):
+    """
     bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
     bucket = '/' + bucket_name
 
@@ -32,7 +33,8 @@ def read_gcs_file(filename="earthquake.json"):
     file_contents = gcs_file.read()
     gcs_file.close()
     return file_contents
-
+    """
+    pass
 
 @app.route('/', methods=['GET'])
 def home():

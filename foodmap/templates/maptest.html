@@ -38,8 +38,22 @@
             center: new google.maps.LatLng(43.0840, -77.675),
             mapTypeId: 'roadmap'
         });
+
+        // customizes food icons
+        var iconBase = '../static/icons/';
+        var icons = {
+            doughnut: {
+              icon: {
+                url: iconBase + 'food.png',
+                scaledSize: new google.maps.Size(30, 30)
+              }
+            }
+        };
+
+        // creates the marker
         var marker = new google.maps.Marker({
             position: location,
+            icon: icons['doughnut'].icon,
             map: map
         });
 

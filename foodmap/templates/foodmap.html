@@ -18,6 +18,10 @@
         height: 70%;
     }
 
+    #secondmap {
+      height: 70%;
+    }
+
     /* Optional: Makes the sample page fill the window. */
     html, body {
         height: 100%;
@@ -28,6 +32,7 @@
         border: 5px solid;
     }
 </style>
+
 </head>
 <body>
 <!-- Facebook SDK -->
@@ -49,21 +54,22 @@
                 <p>
                 This website locates the palces at RIT where you most likely find <strong>free food</strong>!
                 </p>
+                <h3> BY Team Jimmy Neutrón</h3>
             </div>
         </div>
-        
-        
+
+
         <div class="columns">
                 <div class="column">
                     <h2 class="title">Facebook</h2>
-                            <div class="fb-page" data-href="https://www.facebook.com/RITFreeFood/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/RITFreeFood/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/RITFreeFood/">RIT Free Food</a></blockquote></div>                    
+                            <div class="fb-page" data-href="https://www.facebook.com/RITFreeFood/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/RITFreeFood/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/RITFreeFood/">RIT Free Food</a></blockquote></div>
                 </div>
                 <div class="column">
                     <h2 class="title"> Twitter </h2>
-                    <a class="twitter-timeline" data-height="500" href="https://twitter.com/RITFreeFood?ref_src=twsrc%5Etfw">Tweets by RITFreeFood</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>                    
+                    <a class="twitter-timeline" data-height="500" href="https://twitter.com/RITFreeFood?ref_src=twsrc%5Etfw">Tweets by RITFreeFood</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
         </div>
-        
+
     </div>
 </section>
 
@@ -102,6 +108,45 @@
         });
     }
 </script>
+<!--
+<div id="secondmap"></div>
+<script>
+    var secondmap;
+    var latMin = 43.08086111;
+    var latMax = 43.08813889;
+    var lngMin =  -77.66583333;
+    var lngMax = -77.68500000;
+    function initMap() {
+        var latLocation = Math.random() * (latMax - latMin) + latMin;
+        var lngLocation = Math.random() * (lngMax - lngMin) + lngMin;
+        var location = {lat: latLocation, lng: lngLocation};
+        secondmap = new google.maps.Map(document.getElementById('secondmap'), {
+            zoom: 16,
+            center: new google.maps.LatLng(43.0840, -77.675),
+            mapTypeId: 'roadmap'
+        });
+
+        // customizes food icons
+        var iconBase = '../static/icons/';
+        var icons = {
+            doughnut: {
+              icon: {
+                url: iconBase + 'food.png',
+                scaledSize: new google.maps.Size(30, 30)
+              }
+            }
+        };
+
+        // creates the marker
+        var marker = new google.maps.Marker({
+            position: location,
+            icon: icons['doughnut'].icon,
+            map: secondmap
+        });
+    }
+
+</script>
+-->
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeBHloIKVIqKQaAY_pZu7GfIzBwmc7M_M&libraries=visualization&callback=initMap">
 </script>
