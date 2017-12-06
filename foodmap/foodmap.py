@@ -25,7 +25,7 @@ app = Flask(__name__)
 
 
 def read_gcs_file(filename="earthquake.json"):
-    """
+
     bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
     bucket = '/' + bucket_name
 
@@ -33,8 +33,6 @@ def read_gcs_file(filename="earthquake.json"):
     file_contents = gcs_file.read()
     gcs_file.close()
     return file_contents
-    """
-    pass
 
 @app.route('/', methods=['GET'])
 def home():
@@ -44,11 +42,13 @@ def home():
     return render_template('foodmap.html', dataURL=dataURL)
 
 
+
 @app.route('/maptest', methods=['GET'])
 def fake_map():
     """ Testing the use of Google's map API
     """
-    dataURL = url_for('feedData', _external=True)
+    #dataURL = url_for('feedData', _external=True)
+    dataURL = ''
     return render_template('maptest.html', dataURL=dataURL)
 
 
