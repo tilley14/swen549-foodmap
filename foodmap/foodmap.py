@@ -98,11 +98,5 @@ def submit_data():
     #     return "Error"
 
 
-
-
-
-
-
-
 if __name__ == '__main__':
     app.run()
