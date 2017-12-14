@@ -1,6 +1,7 @@
 import random
 import datetime
 
+
 food = ["Pizza", "Ice Cream", "Subs", "Doughnuts", "Coffee", "Fruit/Veggies"]
 building = ["George Eastman Hall", "Campus Center", "Student Alumni Union", "Liberal Arts Hall", "James E. Booth Hall", "Frank E. Gannett Hall", "Thomas Gosnell Hall", "James E. Gleason Hall", "Lewis P. Ross Hall", "Max Lowenthal Hall", "Orange Hall", "Monroe Hall", "Engineering Hall", "Gordon Field House and Activities Center", "Grace Watson Hall", "Sustainability Institute", "Golisano Hall"]
 
@@ -16,4 +17,6 @@ index = 0
 for f in food:
     data.append({"food" : random.choice(food), "building" : random.choice(building), "time" : datetime.datetime.now(), "coordinates" : coordinates})
 
-print(data)
+f = open("fooddata.json", "w")
+f.write(str(data))
+f.close()
