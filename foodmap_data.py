@@ -14,9 +14,10 @@ coordinates = (random.uniform(lat_min, lat_max), random.uniform(lng_min, lng_max
 data = []
 index = 0
 
-for f in food:
+for r in range(0,1000):
+    i = r % 6
     data.append({"food" : random.choice(food), "building" : random.choice(building), "time" : datetime.datetime.now(), "coordinates" : coordinates})
 
-f = open("fooddata.json", "w")
+f = open("./fooddataBigData.json", "w")
 f.write(str(data))
 f.close()
