@@ -8,4 +8,4 @@ ez_setup==0.9
 antlr4-python2-runtime==4.7
 python-appengine==1.9.15
 google-api-python-client==1.6.2
-pyopenssl==17.2.0
+pyopenssl==17.5.0
